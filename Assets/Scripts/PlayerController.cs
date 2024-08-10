@@ -8,20 +8,33 @@ public class PlayerController : MonoBehaviour
     float moveSpeed = 2;
     public Transform gunTransform;
     public GameObject bulletPrefab;
+    [SerializeField]
+    float maxHealth = 20;
+    float currentHealth;
+    [SerializeField]
+    float timeShootingMax = 5;
+    float timeShooting;
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(IEDestroy());
+        timeShooting = 0;
+        currentHealth = maxHealth;
     }
-
-    IEnumerator IEDestroy()
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(gameObject.tag);
-        yield return new WaitForSeconds(2);
-        Debug.Log("hahaha");
-        yield return new WaitForSeconds(2);
-        Debug.Log("Destroy");
-        Destroy(gameObject);
+        if (collision.gameObject.tag.Equals("bulletEnemy"))
+        {
+            currentHealth--;
+            Debug.Log("player health " + currentHealth);
+            if (currentHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        if (collision.gameObject.tag.Equals("enemy"))
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -31,9 +44,19 @@ public class PlayerController : MonoBehaviour
         var h = Input.GetAxis("Horizontal");
         var move = new Vector3(h,0,v);
         transform.Translate(move * moveSpeed * Time.deltaTime);
-        if(Input.GetMouseButtonDown(0))
+        //if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Instantiate(bulletPrefab,gunTransform.position,bulletPrefab.transform.rotation);
+        //}
+        if (timeShooting < timeShootingMax)
         {
-            Instantiate(bulletPrefab,gunTransform.position,bulletPrefab.transform.rotation);
+            timeShooting += Time.deltaTime;
+        }
+        else
+        {
+            // shooting bullets
+            Instantiate(bulletPrefab, gunTransform.position, bulletPrefab.transform.rotation);
+            timeShooting = 0;
         }
     }
 }
