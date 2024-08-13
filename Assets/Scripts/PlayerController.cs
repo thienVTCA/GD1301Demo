@@ -14,25 +14,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float timeShootingMax = 5;
     float timeShooting;
+    AudioSource audioSource;
+    [SerializeField]
+    List<AudioClip> listAudioClips;// 0 - gun, 1 - hit , 2 - explossion
     // Start is called before the first frame update
+    [SerializeField]
+    GameObject explosionarticlePrefab, hitParticlePrefab;
     void Start()
     {
         timeShooting = 0;
         currentHealth = maxHealth;
+        audioSource = GetComponent<AudioSource>();
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("bulletEnemy"))
         {
+            Instantiate(hitParticlePrefab, collision.transform.position, Quaternion.identity);
+            audioSource.clip = listAudioClips[1];
+            audioSource.Play();
+            Destroy(collision.gameObject);
             currentHealth--;
             Debug.Log("player health " + currentHealth);
             if (currentHealth <= 0)
             {
+                Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
         if (collision.gameObject.tag.Equals("enemy"))
         {
+            Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
@@ -55,6 +67,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             // shooting bullets
+            audioSource.clip = listAudioClips[0];
+            audioSource.Play();
             Instantiate(bulletPrefab, gunTransform.position, bulletPrefab.transform.rotation);
             timeShooting = 0;
         }
