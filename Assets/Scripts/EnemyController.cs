@@ -41,12 +41,14 @@ public class EnemyController : MonoBehaviour
             Debug.Log("enemy health " + currentHealth);
             if(currentHealth <= 0)
             {
+                UIManager.uIManagerInstance.UpdateKillNumber();
                 Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
         if (collision.gameObject.tag.Equals("Player") || collision.gameObject.tag.Equals("wall"))
         {
+            UIManager.uIManagerInstance.UpdateKillNumber();
             Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

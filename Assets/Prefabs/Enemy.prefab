@@ -158,6 +158,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c66d97812ba96644aa363ea0ab49b3d9, type: 3}
   - {fileID: 8300000, guid: 8cc1c59a220db724c9e17cd305a6117d, type: 3}
   - {fileID: 8300000, guid: a93824d0dc09f824b9644925dac3a29e, type: 3}
+  explosionarticlePrefab: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
+  hitParticlePrefab: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
 --- !u!82 &5941262640585526233
 AudioSource:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         timeShooting = 0;
         currentHealth = maxHealth;
+        UIManager.uIManagerInstance.UpdateHealthSlider(1);
         audioSource = GetComponent<AudioSource>();
     }
     private void OnCollisionEnter(Collision collision)
@@ -35,15 +36,18 @@ public class PlayerController : MonoBehaviour
             audioSource.Play();
             Destroy(collision.gameObject);
             currentHealth--;
+            UIManager.uIManagerInstance.UpdateHealthSlider(currentHealth / maxHealth);
             Debug.Log("player health " + currentHealth);
             if (currentHealth <= 0)
             {
+                UIManager.uIManagerInstance.GameOver();
                 Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
         if (collision.gameObject.tag.Equals("enemy"))
         {
+            UIManager.uIManagerInstance.GameOver();
             Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -56,21 +60,21 @@ public class PlayerController : MonoBehaviour
         var h = Input.GetAxis("Horizontal");
         var move = new Vector3(h,0,v);
         transform.Translate(move * moveSpeed * Time.deltaTime);
-        //if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    Instantiate(bulletPrefab,gunTransform.position,bulletPrefab.transform.rotation);
-        //}
-        if (timeShooting < timeShootingMax)
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-            timeShooting += Time.deltaTime;
-        }
-        else
-        {
-            // shooting bullets
-            audioSource.clip = listAudioClips[0];
-            audioSource.Play();
             Instantiate(bulletPrefab, gunTransform.position, bulletPrefab.transform.rotation);
-            timeShooting = 0;
         }
+        //if (timeShooting < timeShootingMax)
+        //{
+        //    timeShooting += Time.deltaTime;
+        //}
+        //else
+        //{
+        //    // shooting bullets
+        //    audioSource.clip = listAudioClips[0];
+        //    audioSource.Play();
+        //    Instantiate(bulletPrefab, gunTransform.position, bulletPrefab.transform.rotation);
+        //    timeShooting = 0;
+        //}
     }
 }
