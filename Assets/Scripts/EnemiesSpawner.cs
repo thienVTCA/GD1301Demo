@@ -7,6 +7,8 @@ public class EnemiesSpawner : MonoBehaviour
     [SerializeField]
     GameObject enemyPrefab;
     [SerializeField]
+    List<GameObject> listWavePrefab;
+    [SerializeField]
     List<Transform> listPosTransform;
     [SerializeField]
     float timeToSpawnEnemy = 2;
@@ -27,8 +29,8 @@ public class EnemiesSpawner : MonoBehaviour
         else
         {
             timeSpawn = 0;
-            int posIndex = Random.Range(0, listPosTransform.Count);
-            Instantiate(enemyPrefab, listPosTransform[posIndex].position, enemyPrefab.transform.rotation);
+            int posIndex = Random.Range(0, listWavePrefab.Count);
+            Instantiate(listWavePrefab[posIndex], transform.position, listWavePrefab[posIndex].transform.rotation);
         }
     }
 }

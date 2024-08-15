@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     Slider healthSlider;
     [SerializeField]
     GameObject panelGameOver;
+    [SerializeField]
+    Text textPlayerTakeDam;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -31,12 +33,19 @@ public class UIManager : MonoBehaviour
         killerNumber = 0;
         killerNumberText.text = "0";
         panelGameOver.SetActive(false);
+        textPlayerTakeDam.gameObject.SetActive(false);
     }
 
     public void UpdateKillNumber()
     {
         killerNumber++;
         killerNumberText.text = "" + killerNumber;
+    }
+
+    public void OnSliderValueChanged()
+    {
+        textPlayerTakeDam.gameObject.SetActive(true);
+        
     }
 
     public void UpdateHealthSlider(float inputValue)

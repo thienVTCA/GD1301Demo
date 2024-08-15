@@ -49,6 +49,7 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.tag.Equals("Player") || collision.gameObject.tag.Equals("wall"))
         {
             UIManager.uIManagerInstance.UpdateKillNumber();
+            if (collision.gameObject.tag.Equals("Player"))
             Instantiate(explosionarticlePrefab, collision.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
