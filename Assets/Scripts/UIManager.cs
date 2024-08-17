@@ -16,6 +16,10 @@ public class UIManager : MonoBehaviour
     GameObject panelGameOver;
     [SerializeField]
     Text textPlayerTakeDam;
+    [SerializeField]
+    AudioListener audioListener;
+    [SerializeField]
+    List<GameObject> listBGGameObject;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -30,10 +34,22 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
+        InitAllInfor();
         killerNumber = 0;
         killerNumberText.text = "0";
         panelGameOver.SetActive(false);
         textPlayerTakeDam.gameObject.SetActive(false);
+    }
+
+    void InitAllInfor()
+    {
+        audioListener.enabled = PlayerPrefs.GetInt("GameSound", 0) == 1?true:false;
+        for(int i = 0; i < listBGGameObject.Count; i++)
+        {
+            listBGGameObject[i].SetActive(false);
+        }
+        int indexBG = PlayerPrefs.GetInt("indexChooseTheme", 0);
+        listBGGameObject[indexBG].SetActive(true);
     }
 
     public void UpdateKillNumber()
@@ -60,7 +76,12 @@ public class UIManager : MonoBehaviour
 
     public void Replay()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("GamePlay");
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("StartMenu");
     }
     
 }
